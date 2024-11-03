@@ -1,0 +1,22 @@
+
+spring:
+  application:
+    name: score
+  cloud:
+    stream:
+      bindings:
+        consume-in-0:
+          destination: "${AZURE_SERVICE_BUS_REQUEST_TOPIC_NAME}"
+          group: "${AZURE_SERVICE_BUS_SUBSCRIPTION_NAME}"
+    function:
+      definition: consume
+    azure:
+      servicebus:
+        connection-string: "${AZURE_SERVICE_BUS_ENDPOINT}"
+        namespace: "${AZURE_SERVICE_BUS_NAMESPACE}"
+        topics:
+          send:
+            name: "${AZURE_SERVICE_BUS_RESPONSE_TOPIC_NAME}"
+
+server:
+  port: 8080

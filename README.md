@@ -1,23 +1,29 @@
-# Getting Started
+# Microservicio de Score
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Microservicio que obtiene el score total de los vehículos en circulación por año.
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.5/gradle-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.5/gradle-plugin/packaging-oci-image.html)
-* [Spring Reactive Web](https://docs.spring.io/spring-boot/3.3.5/reference/web/reactive.html)
-* [Spring Cloud Azure developer guide](https://aka.ms/spring/msdocs/developer-guide)
+Comando Docker para construir la imagen de docker en Azure ACR
+------------------------------------------------------------------
+```az acr login --name scoremsjava```
 
-### Guides
-The following guides illustrate how to use some features concretely:
+```docker buildx build --platform linux/amd64,linux/arm64 -t scoremsjava.azurecr.io/score-ms:latest --push .```
 
-* [Building a Reactive RESTful Web Service](https://spring.io/guides/gs/reactive-rest-service/)
-* [Deploying a Spring Boot app to Azure](https://spring.io/guides/gs/spring-boot-for-azure/)
+Comandos Kubernetes para levantar contenedor desde CLI de Azure
+------------------------------------------------------------------
+### 1. Obtener credenciales de conexión al AKS aks-vehicle-platform
+```az aks get-credentials --resource-group rg-vehicle-platform --name vehicle-score-platform```
 
-### Additional Links
-These additional references should also help you:
+### 2. Aplicar ConfigMap
+```kubectl apply -f configmap.yaml```
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-* [Azure Samples](https://aka.ms/spring/samples)
+### 3. Desplegar el servicio
+```kubectl apply -f deployment.yaml```
 
+### 4. Crear el servicio
+```kubectl apply -f service.yaml```
+
+### 5. Aplicar Horizontal Pods Auto-Scaler
+```kubectl apply -f hpa.yaml```
+
+### 6. Obtener el listado de Pods creados
+```kubectl get pods -n vehicle-platform```

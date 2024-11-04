@@ -6,7 +6,7 @@ metadata:
   labels:
     app: score-ms
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8089
       targetPort: 8080

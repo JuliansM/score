@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: score-ms-config
+  namespace: vehicle-platform
+data:
+  JAVA_OPTS: "-Xmx1G -Xms512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Dio.netty.maxDirectMemory=512M"
+  AZURE_SERVICE_BUS_REQUEST_TOPIC_NAME: "request-topic"
+  AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: "score-subscription"
+  AZURE_SERVICE_BUS_NAMESPACE: "sb-vehicle-platform"
+  AZURE_SERVICE_BUS_RESPONSE_TOPIC_NAME: "response-topic"
+  # Configuración específica de Netty
+  REACTOR_NETTY_IOWORKER_COUNT: "8"
+  REACTOR_NETTY_BOSS_COUNT: "4"
+  REACTOR_NETTY_MAX_CONNECTIONS: "10000"
+  SPRING_REACTOR_NETTY_POOL_MAX_IDLE_TIME: "15s"
+  SPRING_REACTOR_NETTY_CONNECTION_TIMEOUT: "2000"
+  SPRING_REACTOR_NETTY_POOL_ACQUIRE_TIMEOUT: "45s"
+  APPLICATION_NAME: "score-ms"
